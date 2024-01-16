@@ -8,7 +8,7 @@ export interface User {
 	uid: string;
 	email: string;
 	displayName: string;
-	photoUrl: string;
+	photoURL: string;
 }
 
 export interface LoginUser {
@@ -16,6 +16,10 @@ export interface LoginUser {
 	password: string;
 }
 
+export interface ErrorRequest {
+	ok: boolean,
+	errorMessage: string
+}
 /**-- States  --**/
 export enum statusTypes {
 	checkingStatus = "checking",

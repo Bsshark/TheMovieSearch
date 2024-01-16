@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AuthState, statusTypes } from '../interfaces/AuthInterfaces';
+import { AuthState, User, statusTypes } from '../interfaces/AuthInterfaces';
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -8,18 +8,18 @@ export const authSlice = createSlice({
             uid: '',
             displayName: '',
             email: '',
-            photoUrl: ''
+            photoURL: ''
         }
     } as AuthState,
     reducers: {
         onCheckingCredentials: (state: AuthState) => {
             state.status = statusTypes.checkingStatus;
         },
-        onLogin: (state: AuthState, {payload} : PayloadAction<AuthState> ) => {
+        onLogin: (state: AuthState, {payload} : PayloadAction<User> ) => {
             state.status = statusTypes.authenticatedStatus;
-            state.user = payload.user;
+            state.user = payload;
             state.errorMessage = undefined;
         },
     }
 });
-export const { onLogin } = authSlice.actions;
+export const { onLogin, onCheckingCredentials } = authSlice.actions;

@@ -1,12 +1,17 @@
-import './App.css'
+import { Provider } from "react-redux";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import { TheSearchMovieApp } from "./TheSearchMovieApp";
+import { store } from "./store/store";
 
 function App() {
-
-  return (
-    <h1 className="text-3xl font-bold underline bg-gradient-to-b from-green-400 to-blue-400">
-      Hello world!
-    </h1>
-  )
+	return (
+		<Provider store={store}>
+			<BrowserRouter>
+				<TheSearchMovieApp />
+			</BrowserRouter>
+		</Provider>
+	);
 }
 
-export default App
+export default App;

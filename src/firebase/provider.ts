@@ -1,22 +1,47 @@
 import {
 	GoogleAuthProvider,
 	User,
+	UserCredential,
 	signInWithEmailAndPassword,
 	signInWithPopup,
+	updateProfile,
 } from "firebase/auth";
 import { FirebaseAuth } from "./config";
-import { ErrorRequest, LoginUser } from '../interfaces/AuthInterfaces';
+import { LoginUser, RegisterUser } from "../interfaces/AuthInterfaces";
+import { createUserWithEmailAndPassword } from "firebase/auth/cordova";
+import { getAuth } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+	prompt: "select_account",
+});
 
-export const signInWithGoogle = async(): Promise<User | any> => {
+export const loginWithEmailPassword = async ({
+	email,
+	password,
+}: LoginUser): Promise<UserCredential | any> => {
+	try {
+		const { user } = await signInWithEmailAndPassword(
+			FirebaseAuth,
+			email,
+			password
+		);
+		return {
+			ok: true,
+			...user,
+		};
+	} catch (error) {
+		return { ok: false, errorMessage: error };
+	}
+};
+
+export const signInWithGoogle = async (): Promise<User | any> => {
 	try {
 		const result = await signInWithPopup(FirebaseAuth, googleProvider);
 		const credentials = GoogleAuthProvider.credentialFromResult(result);
 
-		console.log(credentials)
+		console.log(credentials);
 		return result.user;
-
 	} catch (error: any) {
 		const errorMessage = error.message;
 
@@ -26,24 +51,29 @@ export const signInWithGoogle = async(): Promise<User | any> => {
 		};
 	}
 };
-
-export const loginWithEmailPassword = async ({
+export const createUser = async ({
 	email,
+	displayName,
 	password,
-}: LoginUser) => {
+}: RegisterUser): Promise<UserCredential | any> => {
 	try {
-		const result = await signInWithEmailAndPassword(
+		const { user } = await createUserWithEmailAndPassword(
 			FirebaseAuth,
 			email,
 			password
 		);
 
-		return {
-			ok: true,
-			user: result.user,
-		};
-	} catch (error: any) {
-		return { ok: false, errorMessage: error.message };
+		if (!FirebaseAuth.currentUser) return;
+		updateProfile(FirebaseAuth.currentUser, {
+			displayName,
+		}).then(() => {
+			return {
+				ok: true,
+				...user,
+			};
+		});
+	} catch (error) {
+		return { ok: false, errorMessage: error };
 	}
 };
 

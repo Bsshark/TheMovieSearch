@@ -1,8 +1,23 @@
-import { User } from './../interfaces/AuthInterfaces';
-import { loginWithEmailPassword, signInWithGoogle } from "../firebase/provider";
-import { AuthState, LoginUser } from "../interfaces/AuthInterfaces";
-import { onCheckingCredentials, onLogin } from "../store/authSlice";
+import toast from "react-hot-toast";
+import {
+	createUser,
+	loginWithEmailPassword,
+	logoutFirebase,
+	signInWithGoogle,
+} from "../firebase/provider";
+import {
+	AuthState,
+	LoginUser,
+	RegisterUser,
+	statusTypes,
+} from "../interfaces/AuthInterfaces";
+import { onCheckingCredentials, onLogin, onLogout } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "./dispatch";
+import { useEffect } from "react";
+import {
+	onAuthStateChanged,
+} from "firebase/auth";
+import { FirebaseAuth } from "../firebase/config";
 
 export const useAuthStore = () => {
 	const dispatch = useAppDispatch();
@@ -13,36 +28,55 @@ export const useAuthStore = () => {
 		errorMessage = undefined,
 	}: AuthState = useAppSelector((state) => state.auth);
 
-	const startLogin = async ({ email, password }: LoginUser) => {
-		dispatch(onCheckingCredentials());
-		try {
-			loginWithEmailPassword({ email, password }).then((result) => {
-				if (result.ok && result.user?.email) {
-					const { user } = result;
-					dispatch(
-						onLogin({
-							email: user.email!,
-							displayName: user.displayName!,
-							photoURL: user.photoURL ? user.photoURL : "",
-							uid: user.uid,
-						})
-					);
-				}
-			});
-		} catch (error) {
-			console.log(error);
-		}
+	const startLogin = ({ email, password }: LoginUser) => {
+		return async () => {
+			dispatch(onCheckingCredentials());
+			const user = await loginWithEmailPassword({ email, password });
+			if (!user.ok) return dispatch(onLogout());
+			dispatch(onLogin({ ...user }));
+		};
 	};
 
-	const startLoginWithGoogle = async() => {
+	const startRegister = ({ displayName, email, password }: RegisterUser) => {
+		return async () => {
+			dispatch(onCheckingCredentials());
+			try {
+				const user = await createUser({ email, password, displayName });
+				console.log(user);
+				if (!user.ok) return dispatch(onLogout());
+				dispatch(onLogin({ ...user }));
+			} catch (error) {
+				console.log(error);
+			}
+		};
+	};
+
+	const startLoginWithGoogle = async () => {
 		dispatch(onCheckingCredentials());
 		try {
-			signInWithGoogle().then((result) => {
-                const { displayName, uid, email, photoURL } = result;
-				dispatch(onLogin({displayName, uid, email, photoURL}));
+			signInWithGoogle().then((user) => {
+				dispatch(onLogin(user));
+				toast.success("Logeado correctamente");
 			});
 		} catch (error) {}
 	};
+
+	const startLogOut = async () => {
+		dispatch(onCheckingCredentials());
+		try {
+			logoutFirebase().then(() => {
+				dispatch(onLogout());
+			});
+		} catch (error) {}
+	};
+
+	useEffect(() => {
+		if (status !== statusTypes.checkingStatus) return;
+		onAuthStateChanged(FirebaseAuth, async (user) => {
+			if (!user) return dispatch(onLogout());
+			dispatch(onLogin({ ...user }));
+		});
+	}, [status]);
 
 	return {
 		//Propiedades
@@ -52,6 +86,8 @@ export const useAuthStore = () => {
 
 		//Metodos
 		startLogin,
+		startRegister,
+		startLogOut,
 		startLoginWithGoogle,
 	};
 };

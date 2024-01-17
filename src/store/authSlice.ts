@@ -1,15 +1,12 @@
+import { emptyUser } from './../interfaces/AuthInterfaces';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AuthState, User, statusTypes } from '../interfaces/AuthInterfaces';
+import { AuthState, statusTypes } from '../interfaces/AuthInterfaces';
+import { User } from 'firebase/auth';
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        status: statusTypes.notAuthenticatedStatus,
-        user: {
-            uid: '',
-            displayName: '',
-            email: '',
-            photoURL: ''
-        }
+        status: statusTypes.checkingStatus,
+        user: emptyUser
     } as AuthState,
     reducers: {
         onCheckingCredentials: (state: AuthState) => {
@@ -20,6 +17,11 @@ export const authSlice = createSlice({
             state.user = payload;
             state.errorMessage = undefined;
         },
+        onLogout: (state: AuthState) => {
+            state.status = statusTypes.notAuthenticatedStatus;
+            state.user = emptyUser
+            state.errorMessage = undefined;
+        }
     }
 });
-export const { onLogin, onCheckingCredentials } = authSlice.actions;
+export const { onLogin, onCheckingCredentials, onLogout} = authSlice.actions;

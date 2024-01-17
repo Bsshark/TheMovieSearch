@@ -5,6 +5,8 @@ import { TheSearchMovieApp } from "./TheSearchMovieApp";
 import { store } from "./store/store";
 
 function App() {
+
+	
 	return (
 		<Provider store={store}>
 			<BrowserRouter>

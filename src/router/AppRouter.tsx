@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import { TheSearchMovieApp } from "../TheSearchMovieApp";
 import { MovieDataScreen } from "../Pages/MovieDataScreen";
 

@@ -1,12 +1,12 @@
 import movieApi from "../assets/api/movieApi";
 import { useAppDispatch, useAppSelector } from "./dispatch"
-import { onSearch, onLoad } from '../store/movieSlice';
-import { movieState } from "../interfaces/movieInterfaces";
+import { onSearch, onLoad, onLoadMoviePage } from '../store/movieSlice';
+import { movieResponseData, movieState } from "../interfaces/movieInterfaces";
 
 export const useMovieStore = () => {
     const dispatch = useAppDispatch();
     
-    const { moviesDisplay, isLoading }:movieState = useAppSelector((state) => state.movie);
+    const { moviesDisplay, selectedMovie , isLoading }:movieState = useAppSelector((state) => state.movie);
 
     const startSearchingMovie = (movieName: string) => {
         return async() => {
@@ -19,12 +19,19 @@ export const useMovieStore = () => {
         }
     }
 
+    const startSelectedMovie = (movie: movieResponseData) => {
+        dispatch(onLoad());
+        dispatch(onLoadMoviePage(movie));
+    }
+
     return {
         //props
         isLoading,
         moviesDisplay,
+        selectedMovie,
         //metodos
-        startSearchingMovie
+        startSearchingMovie,
+        startSelectedMovie
     }
 
 }

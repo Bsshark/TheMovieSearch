@@ -17,7 +17,7 @@ export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 
 	return (
 		<>
-			<div className="flex flex-wrap place-items-center w-full absolute top-0">
+			<div className="flex flex-wrap place-items-center w-full absolute top-0 z-10">
 				<section className="relative mx-auto">
 					<nav className="flex bg-gray-900 text-white justify-between w-screen py-4">
 						<div className="px-3 xl:px-12 flex w-fit items-center">

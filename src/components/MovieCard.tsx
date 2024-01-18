@@ -1,20 +1,29 @@
+import { useMovieStore } from "../hooks/useMovieStore";
 import { movieResponseData } from "../interfaces/movieInterfaces";
+import { Link } from "react-router-dom";
 
 export interface MovieCardProps {
 	movie: movieResponseData;
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
+
+    const {startSelectedMovie } = useMovieStore();
+
+    const handleMovieSelect = () => {
+        startSelectedMovie(movie);
+    }
+
 	return (
 		<div className="overflow-hidden max-w-sm h-full flex flex-col bg-slate-400 border border-red-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 			<div className="h-2/3 flex-initial w-full">
-				<a href="#">
+				<Link to="/movie" onClick={handleMovieSelect}>
 					<img
 						className="rounded-t-lg hover:scale-110 h-full w-full object-cover object-top transition ease-in-out"
 						src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
 						alt=""
 					/>
-				</a>
+				</Link>
 			</div>
 			<div className="p-2 flex flex-col overflow-clip">
 				<div className="flex-initial overflow-clip">

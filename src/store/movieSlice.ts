@@ -15,6 +15,10 @@ export const movieSlice = createSlice({
             state.isLoading = false;
             state.moviesDisplay = payload;
         },
+		onLoadMoviePage: (state: movieState, { payload }: PayloadAction<movieResponseData>) => {
+			state.isLoading = false;
+			state.selectedMovie = payload;
+		}
 	},
 });
-export const { onLoad, onSearch } = movieSlice.actions;
+export const { onLoad, onSearch, onLoadMoviePage } = movieSlice.actions;

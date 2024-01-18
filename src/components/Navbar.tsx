@@ -1,8 +1,13 @@
 import { faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuthStore } from "../hooks/useAuthStore";
+import { ChangeEvent } from "react";
 
-export const Navbar = () => {
+export interface movieSearchProps {
+	onMovieSearch: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 
     const { startLogOut } = useAuthStore();
 
@@ -18,7 +23,7 @@ export const Navbar = () => {
 						<div className="px-3 xl:px-12 flex w-fit items-center">
 							<a
 								className="xl:text-3xl md:text-xl font-bold font-heading"
-								href="#"
+								href="/"
 							>
 								The Movie Search
 							</a>
@@ -46,18 +51,19 @@ export const Navbar = () => {
 								type="text"
 								id="search"
 								placeholder="Buscar.."
+								onChange={onMovieSearch}
 							/>
 						</div>
 						<a className="navbar-burger self-center h-fit w-fit mx-2" href="#">
 								<FontAwesomeIcon
 									icon={faUser}
 									size="2x"
-									className="size-6 sm:size-8 pl-4"
+									className="size-6 sm:size-8 pr-4"
 								/>
 								<FontAwesomeIcon
 									icon={faRightFromBracket}
 									size="2x"
-									className="size-6 sm:size-8 pl-4"
+									className="size-6 sm:size-8 pr-4"
                                     onClick={() => handleLogOut()}
 								/>
 						</a>

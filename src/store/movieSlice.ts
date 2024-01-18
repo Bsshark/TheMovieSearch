@@ -1,12 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { movieResponseData, movieState } from '../interfaces/movieInterfaces';
 export const movieSlice = createSlice({
-    name: 'movie',
-    initialState: {
-    },
-    reducers: {
-        increment: (state, /* action */ ) => {
-            
+	name: "movie",
+	initialState: {
+		isLoading: true,
+		moviesDisplay: [],
+		selectedMovie: {} as movieResponseData,
+	} as movieState,
+	reducers: {
+		onLoad: (state /* action */) => {
+			state.isLoading = true;
+		},
+		onSearch: (state: movieState, { payload }: PayloadAction<movieResponseData[]>) => {
+            state.isLoading = false;
+            state.moviesDisplay = payload;
         },
-    }
+	},
 });
-export const { increment } = movieSlice.actions;
+export const { onLoad, onSearch } = movieSlice.actions;

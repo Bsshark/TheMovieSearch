@@ -15,7 +15,7 @@ export const TheSearchMovieApp = () => {
 	
 
 	return (
-		<div className="flex items-center justify-center h-full bg-gray-700 font-mono">
+		<div className="flex items-center justify-center h-dvh bg-gray-700 font-mono">
 			<div><Toaster position="bottom-right"/></div>
 			{
 				status===statusTypes.checkingStatus

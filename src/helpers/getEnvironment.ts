@@ -8,7 +8,8 @@ export const getEnvironment = () => {
 		VITE_STORAGEBUCKET: import.meta.env.VITE_STORAGEBUCKET,
 		VITE_MESSAGINGSENDERID: import.meta.env.VITE_MESSAGINGSENDERID,
 		VITE_APPID: import.meta.env.VITE_APPID,
-		VITE_API_URL: import.meta.env.VITE_API_URL,
-		VITE_MODE: import.meta.env.VITE_MODE
+		VITE_MOVIEAPI_URL: import.meta.env.VITE_MOVIEAPI_URL,
+		VITE_MODE: import.meta.env.VITE_MODE,
+		VITE_MOVIEAPI_TOKEN: import.meta.env.VITE_MOVIEAPI_TOKEN
 	};
 };

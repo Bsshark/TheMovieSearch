@@ -1,7 +1,5 @@
 import { Toaster } from "react-hot-toast";
-import { LoadingComponent } from "./components/LoadingComponent";
 import { useAuthStore } from "./hooks/useAuthStore";
-import { statusTypes } from "./interfaces/AuthInterfaces";
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { WelcomeScreen } from "./Pages/WelcomeScreen";
 import { Navbar } from "./components/Navbar";
@@ -37,7 +35,7 @@ export const TheSearchMovieApp = () => {
 	};
 
 	return (
-		<div className="flex items-center justify-center h-dvh bg-gray-700 font-mono">
+		<div className="flex justify-center pt-36 pb-10 h-fit min-h-dvh w-full bg-gray-700 font-mono">
 			<div>
 				<Toaster position="bottom-right" />
 			</div>

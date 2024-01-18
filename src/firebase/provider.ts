@@ -9,8 +9,6 @@ import {
 import { FirebaseAuth } from "./config";
 import { LoginUser, RegisterUser } from "../interfaces/AuthInterfaces";
 import { createUserWithEmailAndPassword } from "firebase/auth/cordova";
-import { getAuth } from "firebase/auth";
-
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
 	prompt: "select_account",

@@ -17,9 +17,9 @@ export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 
 	return (
 		<>
-			<div className="flex flex-wrap place-items-center w-full absolute top-0 z-10">
-				<section className="relative mx-auto">
-					<nav className="flex bg-gray-900 text-white justify-between w-screen py-4">
+			<div className="flex flex-wrap place-items-center absolute top-0 z-10 w-full">
+				<section className="relative mx-auto w-full">
+					<nav className="flex bg-gray-900 text-white justify-between w-full py-4">
 						<div className="px-3 xl:px-12 flex w-fit items-center">
 							<a
 								className="xl:text-3xl md:text-xl font-bold font-heading"
@@ -28,7 +28,7 @@ export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 								The Movie Search
 							</a>
 						</div>
-						<div className="relative flex items-center w-1/2 h-12 mt-3 md:-mr-1.5 rounded-lg focus-within:shadow-lg bg-slate-400 overflow-hidden border-x-2 border-y-red-200 border-y-2 border-x-emerald-400">
+						<div className="relative flex items-center w-1/2 min-w-28 h-12 mt-3 md:-mr-1.5 rounded-lg focus-within:shadow-lg bg-slate-400 overflow-hidden border-x-2 border-y-red-200 border-y-2 border-x-emerald-400">
 							<div className="grid place-items-center h-full w-12 text-gray-300">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 								onChange={onMovieSearch}
 							/>
 						</div>
-						<a className="navbar-burger self-center h-fit w-fit mx-2" href="#">
+						<a className="navbar-burger self-center h-fit w-fit mx-2 flex flex-nowrap" href="#">
 								<FontAwesomeIcon
 									icon={faUser}
 									size="2x"

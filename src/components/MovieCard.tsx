@@ -1,3 +1,4 @@
+import { useAppDispatch } from "../hooks/dispatch";
 import { useMovieStore } from "../hooks/useMovieStore";
 import { movieResponseData } from "../interfaces/movieInterfaces";
 import { Link } from "react-router-dom";
@@ -10,8 +11,10 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 
     const {startSelectedMovie } = useMovieStore();
 
+	const dispatch = useAppDispatch();
+
     const handleMovieSelect = () => {
-        startSelectedMovie(movie);
+        dispatch(startSelectedMovie(movie));
     }
 
 	return (

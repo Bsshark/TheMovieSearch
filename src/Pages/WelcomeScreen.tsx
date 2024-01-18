@@ -7,7 +7,10 @@ import { LoadingComponent } from "../components/LoadingComponent"
 import { MovieDisplay } from "../components/MovieDisplay";
 
 export const WelcomeScreen = () => {
+	
 	const { status } = useAuthStore();
+
+	
 	const [showRegister, setShowRegister] = useState(false);
 
 	const toggleShowForm = () => {
@@ -17,6 +20,8 @@ export const WelcomeScreen = () => {
 	if (status === statusTypes.checkingStatus) {
 		return <LoadingComponent />;
 	}
+
+	
 
 	return (
 		<>

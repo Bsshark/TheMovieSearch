@@ -1,19 +1,45 @@
 import { faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuthStore } from "../hooks/useAuthStore";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useMovieStore } from "../hooks/useMovieStore";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../hooks/dispatch";
 
 export interface movieSearchProps {
-	onMovieSearch: (e: ChangeEvent<HTMLInputElement>) => void
+	onMovieSearch: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Navbar = ({onMovieSearch}: movieSearchProps) => {
+export const Navbar = () => {
+	const dispatch = useAppDispatch();
 
-    const { startLogOut } = useAuthStore();
+	const debounceRef = useRef<NodeJS.Timeout>();
+	const { startSearchingMovie } = useMovieStore();
+	const navigate = useNavigate();
 
-    const handleLogOut = () => {
-        startLogOut();
-    }
+	const { startLogOut } = useAuthStore();
+
+	const handleLogOut = () => {
+		startLogOut();
+	};
+
+	const [movieSearch, setMovieSearch] = useState("");
+	useEffect(() => {
+		onSearch(movieSearch);
+	}, [movieSearch]);
+
+	const onSearch = (query: string) => {
+		if (debounceRef.current) clearTimeout(debounceRef.current);
+
+		debounceRef.current = setTimeout(() => {
+			//todo: buscar
+			dispatch(startSearchingMovie(query));
+			navigate("/");
+		}, 1000);
+	};
+	const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setMovieSearch(e.target.value);
+	};
 
 	return (
 		<>
@@ -51,21 +77,27 @@ export const Navbar = ({onMovieSearch}: movieSearchProps) => {
 								type="text"
 								id="search"
 								placeholder="Buscar.."
-								onChange={onMovieSearch}
+								onChange={onSearchChange}
 							/>
 						</div>
-						<a className="navbar-burger self-center h-fit w-fit mx-2 flex flex-nowrap" href="#">
+						<a
+							className="navbar-burger self-center h-fit w-fit mx-2 flex flex-nowrap"
+							href="#"
+						>
+							<Link to="/list">
 								<FontAwesomeIcon
 									icon={faUser}
 									size="2x"
 									className="size-6 sm:size-8 pr-4"
 								/>
-								<FontAwesomeIcon
-									icon={faRightFromBracket}
-									size="2x"
-									className="size-6 sm:size-8 pr-4"
-                                    onClick={() => handleLogOut()}
-								/>
+							</Link>
+
+							<FontAwesomeIcon
+								icon={faRightFromBracket}
+								size="2x"
+								className="size-6 sm:size-8 pr-4"
+								onClick={() => handleLogOut()}
+							/>
 						</a>
 					</nav>
 				</section>

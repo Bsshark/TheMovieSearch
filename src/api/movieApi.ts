@@ -1,4 +1,4 @@
-import { getEnvironment } from "./../../helpers/getEnvironment";
+import { getEnvironment } from "../helpers/getEnvironment";
 import axios from "axios";
 
 //const PokeApiUrl = 'https://pokeapi.co/api/v2/';
@@ -24,3 +24,5 @@ movieApi.interceptors.request.use(
 );
 
 export default movieApi;
+
+

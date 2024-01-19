@@ -1,11 +1,13 @@
-export interface movieState {
+export interface MovieState {
 	isLoading: boolean;
-	selectedMovie: movieResponseData;
-	moviesDisplay: movieResponseData[];
-	streamingServices: streamingServicesResponseData;
+	selectedMovie: MovieResponseData;
+	moviesDisplay: MovieResponseData[];
+	streamingServices: StreamingServicesResponseData;
+	bookmarks: BookmarkData[],
+	bookmarkMovies: MovieResponseData[]
 }
 
-export interface movieResponseData {
+export interface MovieResponseData {
 	adult: boolean;
 	id: number;
 	title: string;
@@ -18,11 +20,16 @@ export interface movieResponseData {
 	vote_count: number;
 }
 
-export interface streamingServicesResponseData {
+export interface BookmarkData {
 	id: number;
-	results: streamingServiceResponseResults;
+	title: string;
 }
-export interface streamingServiceResponseResults {
+
+export interface StreamingServicesResponseData {
+	id: number;
+	results: StreamingServiceResponseResults;
+}
+export interface StreamingServiceResponseResults {
 	ES: streamingServiceResponseEs;
 }
 export interface streamingServiceResponseEs {

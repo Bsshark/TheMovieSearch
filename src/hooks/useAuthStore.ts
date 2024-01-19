@@ -9,15 +9,10 @@ import {
 	AuthState,
 	LoginUser,
 	RegisterUser,
-	statusTypes,
 } from "../interfaces/AuthInterfaces";
 import { onCheckingCredentials, onLogin, onLogout } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "./dispatch";
-import { useEffect } from "react";
-import {
-	onAuthStateChanged,
-} from "firebase/auth";
-import { FirebaseAuth } from "../firebase/config";
+import { onClearMovieData } from "../store/movieSlice";
 
 export const useAuthStore = () => {
 	const dispatch = useAppDispatch();
@@ -63,20 +58,15 @@ export const useAuthStore = () => {
 
 	const startLogOut = async () => {
 		dispatch(onCheckingCredentials());
+
 		try {
 			logoutFirebase().then(() => {
 				dispatch(onLogout());
+				dispatch(onClearMovieData());
 			});
 		} catch (error) {}
 	};
 
-	useEffect(() => {
-		if (status !== statusTypes.checkingStatus) return;
-		onAuthStateChanged(FirebaseAuth, async (user) => {
-			if (!user) return dispatch(onLogout());
-			dispatch(onLogin({ ...user }));
-		});
-	}, [status]);
 
 	return {
 		//Propiedades

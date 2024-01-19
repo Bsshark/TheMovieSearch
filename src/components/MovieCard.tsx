@@ -1,25 +1,50 @@
 import { useAppDispatch } from "../hooks/dispatch";
 import { useMovieStore } from "../hooks/useMovieStore";
-import { movieResponseData } from "../interfaces/movieInterfaces";
+import { MovieResponseData } from "../interfaces/movieInterfaces";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
 export interface MovieCardProps {
-	movie: movieResponseData;
+	movie: MovieResponseData;
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
-
-    const {startSelectedMovie } = useMovieStore();
+	const { startSelectedMovie, startSavingBookmark, bookmarks } = useMovieStore();
 
 	const dispatch = useAppDispatch();
 
-    const handleMovieSelect = () => {
-        dispatch(startSelectedMovie(movie));
-    }
+	const [isBookmark, setIsBookmark] = useState(false);
+
+	useEffect(() => {
+	  if(!bookmarks.find((bookmark) => bookmark.id === movie.id)) return setIsBookmark(false);
+	  setIsBookmark(true);
+	}, [bookmarks])
+	
+
+	const handleMovieSelect = () => {
+		dispatch(startSelectedMovie(movie));
+	};
+
+	const handleSaveBookmark = () => {
+		dispatch(startSavingBookmark(movie.id, movie.title));
+	}
+
+
 
 	return (
-		<div className="overflow-hidden max-w-sm h-full flex flex-col bg-slate-400 border border-red-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-			<div className="h-2/3 flex-initial w-full">
+		<div className="overflow max-w-sm h-full flex flex-col bg-slate-400 border border-red-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
+			<div className="absolute -top-1 -right-2 h-fit z-50" onClick={handleSaveBookmark}>
+				<FontAwesomeIcon
+					icon={faBookmark}
+					size="3x"
+					style={{ color: isBookmark?'yellow':'gray', textShadow: "0 0 3px #000" }}
+					className="hover:scale-125 hover:cursor-pointer size-10"
+					
+				/>
+			</div>
+			<div className="h-2/3 flex-initial w-full overflow-hidden">
 				<Link to="/movie" onClick={handleMovieSelect}>
 					<img
 						className="rounded-t-lg hover:scale-110 h-full w-full object-cover object-top transition ease-in-out"

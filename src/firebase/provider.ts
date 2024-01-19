@@ -6,7 +6,7 @@ import {
 	signInWithPopup,
 	updateProfile,
 } from "firebase/auth";
-import { FirebaseAuth } from "./config";
+import { FirebaseAuth } from './config';
 import { LoginUser, RegisterUser } from "../interfaces/AuthInterfaces";
 import { createUserWithEmailAndPassword } from "firebase/auth/cordova";
 const googleProvider = new GoogleAuthProvider();
@@ -74,6 +74,7 @@ export const createUser = async ({
 		return { ok: false, errorMessage: error };
 	}
 };
+
 
 export const logoutFirebase = async () => {
 	return await FirebaseAuth.signOut();

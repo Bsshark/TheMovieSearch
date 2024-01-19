@@ -14,6 +14,7 @@ export const RegisterForm = ({toggleShowForm}: FormProps) => {
 
 	const dispatch = useAppDispatch();
 
+
 	const handleRegister = ({displayName, email, password }: RegisterUser) => {
 		dispatch(startRegister({displayName, email, password}));
 	};
@@ -26,7 +27,7 @@ export const RegisterForm = ({toggleShowForm}: FormProps) => {
 				onSubmit={handleRegister}
 			>
 				{({ errors, touched }) => (
-					<Form className="sm:w-2/3 w-11/12 lg:w-1/3 h-fit rounded-md flex-shrink bg-gradient-to-r from-red-500 to-yellow-500 bg-gray-900 p-1">
+					<Form className="sm:w-2/3 w-11/12 lg:w-1/3 h-fit rounded-md bg-gradient-to-r from-red-500 to-yellow-500 bg-gray-900 p-1">
 						<div className="xl:px-10 px-3 py-10 flex flex-col xl:flex-wrap h-full w-full bg-gray-800 text-white justify-center">
 							<div className="">
 								<h2 className="w-full xl:text-xl font-semibold xl:leading-10 sm:leading-4 text-center">
@@ -179,7 +180,7 @@ export const RegisterForm = ({toggleShowForm}: FormProps) => {
 							</div>
 							<div className="w-full">
 								¿Ya tienes cuenta?{" "}
-								<a onClick={toggleShowForm} href="" className="no-underline hover:underline">
+								<a onClick={toggleShowForm} className="no-underline hover:underline">
 									Logéate <FontAwesomeIcon icon={faAddressCard} />
 								</a>
 							</div>
